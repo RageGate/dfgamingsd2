@@ -199,7 +199,7 @@ struct MANGOS_DLL_DECL mob_captive_mechagnomeAI : public ScriptedAI
                             break;
                         // case following player. needs fourther reasearch if creature is assisting in combat
                         case 3:
-                            m_creature->GetMotionMaster()->MoveFollow(pPlayer,PET_FOLLOW_DIST, PET_FOLLOW_ANGLE + urand(0,2)*M_PI/2);
+                            m_creature->GetMotionMaster()->MoveFollow(pPlayer,PET_FOLLOW_DIST, PET_DEFAULT_FOLLOW_ANGLE + urand(0,2)*M_PI/2);
                             break;
                     }
                     bActed = true;
