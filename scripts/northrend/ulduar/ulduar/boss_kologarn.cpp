@@ -287,7 +287,7 @@ struct MANGOS_DLL_DECL boss_kologarn_right_armAI : public ScriptedAI
         {
             //stone grip emote
             if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0)){
-                DoCastSpellIfCan(target, m_bIsRegularMode ? SPELL_STONE_GRIP : SPELL_STONE_GRIP_H);
+                //DoCastSpellIfCan(target, m_bIsRegularMode ? SPELL_STONE_GRIP : SPELL_STONE_GRIP_H);
                 GripTarget = target->GetGUID();
                 grip = true;
                 gripdmg = 0;
