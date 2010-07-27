@@ -406,7 +406,7 @@ struct MANGOS_DLL_DECL boss_archimondeAI : public ScriptedAI
         m_creature->InterruptNonMeleeSpells(false);
 
         if(m_creature->getVictim())
-            DoCastSpellIfCan(m_creature->getVictim(), SoulChargeType);
+            DoCast(m_creature->getVictim(), SoulChargeType);
 
 
             --SoulChargeCount;

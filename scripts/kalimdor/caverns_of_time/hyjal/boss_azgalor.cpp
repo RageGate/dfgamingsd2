@@ -24,178 +24,183 @@ EndScriptData */
 #include "precompiled.h"
 #include "hyjal.h"
 
-#define SP_AzgalorDoom        31347
-
 enum
 {
-    SAY_INTRO		= 10999,
-	SAY_DOOM		= 11000,
-	SAY_DOOM2		= 11046,
-	SAY_AGGRO		= 11003,
-	SAY_WOUND		= 11004,
-	SAY_WOUND2		= 11005,
-	SAY_SLAY		= 11001,
-	SAY_SLAY2		= 11048,
-	SAY_SLAY3		= 11047,
-	SAY_DEATH		= 11002,
+    SAY_INTRO        = 10999,
+    SAY_DOOM         = 11000,
+    SAY_DOOM2        = 11046,
+    SAY_AGGRO        = 11003,
+    SAY_WOUND        = 11004,
+    SAY_WOUND2       = 11005,
+    SAY_SLAY         = 11001,
+    SAY_SLAY2        = 11048,
+    SAY_SLAY3        = 11047,
+    SAY_DEATH        = 11002,
 
-	// Azgalor
-	SPELL_CLEAVE		    = 31345,
-	SPELL_RAIN				= 31340, 
-	SPELL_FLAMES			= 31341,
-	SPELL_HOWL				= 31344,
-	SPELL_DOOM				= 31347,  // Summon Entry 17864
-	SPELL_ENRAGE			= 26662,  // rage id  
+    // Azgalor
+    SPELL_CLEAVE            = 31345,
+    SPELL_RAIN              = 31340, 
+    SPELL_FLAMES            = 31341,
+    SPELL_HOWL              = 31344,
+    SPELL_DOOM              = 31347,  // Summon Entry 17864
+    SPELL_ENRAGE            = 26662,  // rage id  
 };
 
 class MANGOS_DLL_DECL AzgalorDoom : public Aura
 {
     public:
-        AzgalorDoom(const SpellEntry *spell, SpellEffectIndex eff, int32 *bp, Unit *target, Unit *caster) : Aura(spell, eff, bp, target, caster, NULL)
-            {}
+        //AzgalorDoom(SpellEntry *spellInfo, SpellEffectIndex eff, int32 *bp, Unit *target, Unit *caster) : Aura(spellInfo, eff, bp, target, caster, NULL) {}
 };
 
 struct MANGOS_DLL_DECL boss_azgalorAI : public ScriptedAI
 {
-	boss_azgalorAI(Creature *c) : ScriptedAI(c)
-	{
+    boss_azgalorAI(Creature *c) : ScriptedAI(c)
+    {
         pInstance = ((ScriptedInstance*)c->GetInstanceData());
         Reset();
     }
-	
-	ScriptedInstance* pInstance;
+    
+    ScriptedInstance* pInstance;
 
-	uint32 CleaveTimer;
+    uint32 CleaveTimer;
     uint32 RainTimer;
     uint32 HowlTimer;
     uint32 DoomTimer;
     uint32 EnrageTimer;
 
-	void Reset()
+    void Reset()
     {
         if (pInstance)
             pInstance->SetData(TYPE_ANETHERON, NOT_STARTED);
 
-		CleaveTimer = 10000;
-		RainTimer = 20000;
-		HowlTimer = 10000+rand()%5000;
-		DoomTimer = 45000+rand()%5000;
-		EnrageTimer = 600000;
-	}
+        CleaveTimer = 10000;
+        RainTimer = 20000;
+        HowlTimer = 10000+rand()%5000;
+        DoomTimer = 45000+rand()%5000;
+        EnrageTimer = 600000;
+    }
 
-	void Aggro(Unit *who)
+    void Aggro(Unit *who)
     {
         DoPlaySoundToSet(m_creature, SAY_INTRO);
 
-		m_creature->SetInCombatWithZone();
+        m_creature->SetInCombatWithZone();
 
-		if (pInstance)
-		{
+        if (pInstance)
+        {
             pInstance->SetData(TYPE_AZGALOR, IN_PROGRESS);
-			error_log("Debug: Azgalor event IN_PROGRESS zainicjowany przez %u", who->GetGUID()); // usunac jesli wszystko bedzie OK
-		}
+            error_log("Debug: Azgalor event IN_PROGRESS zainicjowany przez %u", who->GetGUID()); // usunac jesli wszystko bedzie OK
+        }
     }
 
-	void KilledUnit(Unit *victim)
+    void KilledUnit(Unit *victim)
     {
-		switch (rand()%3)
-		{
-			case 0: DoPlaySoundToSet(m_creature, SAY_SLAY); break;
-			case 1: DoPlaySoundToSet(m_creature, SAY_SLAY2); break;
-			case 2: DoPlaySoundToSet(m_creature, SAY_SLAY3); break;
-		}
+        switch (rand()%3)
+        {
+            case 0: DoPlaySoundToSet(m_creature, SAY_SLAY); break;
+            case 1: DoPlaySoundToSet(m_creature, SAY_SLAY2); break;
+            case 2: DoPlaySoundToSet(m_creature, SAY_SLAY3); break;
+        }
     }
 
-	void JustDied(Unit *victim)
+    void JustDied(Unit *victim)
     {
+        if (pInstance)
+        {
+            pInstance->SetData(TYPE_AZGALOR, DONE); 
+            error_log("Debug: Azgalor - event DONE");                                            // usunac jesli wszystko bedzie OK
+        }
         DoPlaySoundToSet(m_creature, SAY_DEATH);
-
-		if (pInstance)
-		{
-				pInstance->SetData(TYPE_AZGALOR, DONE); 
-				error_log("Debug: Azgalor - event DONE");											// usunac jesli wszystko bedzie OK
-		}
     }
 
     void CastDoom()
     {
         SpellEntry *spellInfo = (SpellEntry *)GetSpellStore()->LookupEntry(SPELL_DOOM);
         if (spellInfo)
-			//target without tank
-            if(Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1))
-				for(uint32 i=0 ;i<3; ++i)
-				{
-					uint8 eff = spellInfo->Effect[i];
-					if (eff>=TOTAL_SPELL_EFFECTS)
-						continue;
-					SpellEntry const *sp;
-                    int bp;
-					sp = (SpellEntry *)GetSpellStore()->LookupEntry(SP_AzgalorDoom);
-                    bp = 8;
-					if(!target->HasAura(SP_AzgalorDoom, EFFECT_INDEX_0))
-					    target->AddAura(new AzgalorDoom(sp, EFFECT_INDEX_0, &bp, target, target));
-				}
+            //target without tank
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,1))
+            {
+                if (pTarget->GetTypeId() == TYPEID_PLAYER)
+                {
+                    for(uint8 i=0; i< MAX_EFFECT_INDEX; ++i)
+                    {
+                        uint8 eff = spellInfo->Effect[SpellEffectIndex(i)];
+                        if (eff >= TOTAL_SPELL_EFFECTS)
+                            continue;
+                        //uint8 i=1;
+                        //pTarget->AddAura(new AzgalorDoom(spellInfo, SpellEffectIndex(i), NULL, pTarget, pTarget));
+                    }
+                }
+                else
+                    DoomTimer = 1000;
+            }
     }
 
-	void UpdateAI(const uint32 diff)
-	{
-		if (!m_creature->SelectHostileTarget() || !m_creature->getVictim() )
-			return;
+    void UpdateAI(const uint32 diff)
+    {
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim() )
+            return;
 
-		if(m_creature->HasAura(SPELL_FLAMES))
-			m_creature->RemoveAurasDueToSpell(SPELL_FLAMES);
+        if(m_creature->HasAura(SPELL_FLAMES))
+            m_creature->RemoveAurasDueToSpell(SPELL_FLAMES);
 
-		if(CleaveTimer < diff)
+        if(CleaveTimer < diff)
         {
-			if(m_creature->getVictim())
-			{
-				DoCastSpellIfCan(m_creature->getVictim(), SPELL_CLEAVE);
-				CleaveTimer = 10000;
-			}
-        }CleaveTimer -= diff;
+            if(m_creature->getVictim())
+            {
+                DoCast(m_creature->getVictim(), SPELL_CLEAVE);
+                CleaveTimer = 10000;
+            }
+        }
+        else
+            CleaveTimer -= diff;
 
-		if(RainTimer < diff)
-		{
-			switch (rand()%3)
-			{
-				case 0: DoPlaySoundToSet(m_creature, SAY_WOUND); break;
-				case 1: DoPlaySoundToSet(m_creature, SAY_WOUND2); break;
-				case 2: DoPlaySoundToSet(m_creature, SAY_AGGRO); break;
-			}
+        if(RainTimer < diff)
+        {
+            switch (urand(0, 2))
+            {
+                case 0: DoPlaySoundToSet(m_creature, SAY_WOUND); break;
+                case 1: DoPlaySoundToSet(m_creature, SAY_WOUND2); break;
+                case 2: DoPlaySoundToSet(m_creature, SAY_AGGRO); break;
+            }
 
-			if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-			{
-				DoCastSpellIfCan(target, SPELL_RAIN, false);
-				target->CastSpell(target, SPELL_FLAMES, false);
-				RainTimer = 20000+rand()%15000;
-			}								
-		}RainTimer -= diff;
+            if(Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+            {
+                DoCastSpellIfCan(pTarget, SPELL_RAIN);
+                pTarget->CastSpell(pTarget, SPELL_FLAMES, false);
+                RainTimer = urand(20000, 35000);
+            }                                
+        }
+        else
+            RainTimer -= diff;
 
         if(HowlTimer < diff)
-		{
-			DoCastSpellIfCan(m_creature, SPELL_HOWL); 
-			HowlTimer = 15000+rand()%5000;                                            
-		}HowlTimer -= diff;
+        {
+            DoCast(m_creature, SPELL_HOWL); 
+            HowlTimer = 15000+rand()%5000;                                            
+        }
+        else
+            HowlTimer -= diff;
 
-		if(DoomTimer < diff)
-		{
-			switch (rand()%2)
-			{
-				case 0: DoPlaySoundToSet(m_creature, SAY_DOOM); break;
-				case 1: DoPlaySoundToSet(m_creature, SAY_DOOM2); break;
-			}
-			CastDoom();
-			DoomTimer = 45000+rand()%5000;;
-		}DoomTimer -= diff;
+        if(DoomTimer < diff)
+        {
+            DoPlaySoundToSet(m_creature, urand(0, 1) ? SAY_DOOM : SAY_DOOM2);
+            CastDoom();
+            DoomTimer = urand(45000, 50000);
+        }
+        else
+            DoomTimer -= diff;
 
-		if(EnrageTimer < diff)
-		{
-			DoCastSpellIfCan(m_creature, SPELL_ENRAGE);
-			EnrageTimer = 300000;
-		}EnrageTimer -= diff;
+        if(EnrageTimer < diff)
+        {
+            DoCastSpellIfCan(m_creature, SPELL_ENRAGE);
+            EnrageTimer = 300000;
+        }
+        else
+            EnrageTimer -= diff;
 
-		DoMeleeAttackIfReady();
-	}
+        DoMeleeAttackIfReady();
+    }
 };
 
 CreatureAI* GetAI_boss_azgalor(Creature *_Creature)
