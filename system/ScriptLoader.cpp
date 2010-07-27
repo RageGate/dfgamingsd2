@@ -21,7 +21,7 @@ extern void AddSC_custom_npc_renamecharacter();
 extern void AddSC_custom_npc_resetlevel();
 extern void AddSC_custom_npc_spellmaster();
 extern void AddSC_custom_npc_teleportmaster();
-extern void AddSC_custom_npc_titlemaster();
+//extern void AddSC_custom_npc_titlemaster();
 extern void AddSC_custom_npc_tokenvendor();
 extern void AddSC_custom_script_training_dummy();
 extern void AddSC_news();
@@ -555,7 +555,7 @@ void AddScripts()
     AddSC_custom_npc_resetlevel();
     AddSC_custom_npc_spellmaster();
     AddSC_custom_npc_teleportmaster();
-    AddSC_custom_npc_titlemaster();
+    //AddSC_custom_npc_titlemaster();
     AddSC_custom_npc_tokenvendor();
     AddSC_custom_script_training_dummy();
 	AddSC_news();

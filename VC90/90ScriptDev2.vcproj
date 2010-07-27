@@ -466,10 +466,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\scripts\custom\custom_npc_titlemaster.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\scripts\custom\custom_npc_tokenvendor.cpp"
 					>
 				</File>
