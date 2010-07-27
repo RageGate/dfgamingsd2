@@ -106,7 +106,7 @@ struct MANGOS_DLL_DECL npc_toc_announcerAI : public ScriptedAI
             if (pInstance->GetData(TYPE_NORTHREND_BEASTS) == SNAKES_DONE) {
                          pInstance->SetData(TYPE_STAGE,3);
                          pInstance->SetData(TYPE_EVENT,300);
-                         pInstance->SetData(TYPE_NORTHREND_BEASTS,SNAKES_IN_PROGRESS);
+                         pInstance->SetData(TYPE_NORTHREND_BEASTS,ICEHOWL_IN_PROGRESS);
                          pInstance->SetData(TYPE_BEASTS,IN_PROGRESS);
                  };
             if (pInstance->GetData(TYPE_NORTHREND_BEASTS) == FAIL) {
@@ -284,7 +284,7 @@ switch(uiAction) {
        if (GameObject* pGoFloor = pInstance->instance->GetGameObject(pInstance->GetData64(GO_ARGENT_COLISEUM_FLOOR)))
           {
            pGoFloor->SetUInt32Value(GAMEOBJECT_DISPLAYID,9060);
-           pGoFloor->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_DAMAGED | GO_FLAG_NODESPAWN);
+           pGoFloor->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_UNK_10 | GO_FLAG_NODESPAWN);
            pGoFloor->SetUInt32Value(GAMEOBJECT_BYTES_1,8449);
            }
            pCreature->CastSpell(pCreature,69016,false);
@@ -448,7 +448,7 @@ struct MANGOS_DLL_DECL boss_lich_king_tocAI : public ScriptedAI
                if (GameObject* pGoFloor = pInstance->instance->GetGameObject(pInstance->GetData64(GO_ARGENT_COLISEUM_FLOOR)))
                   {
                    pGoFloor->SetUInt32Value(GAMEOBJECT_DISPLAYID,9060);
-                   pGoFloor->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_DAMAGED | GO_FLAG_NODESPAWN);
+                   pGoFloor->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_UNK_10 | GO_FLAG_NODESPAWN);
                    pGoFloor->SetUInt32Value(GAMEOBJECT_BYTES_1,8449);
                    }
                 m_creature->CastSpell(m_creature,69016,false);
@@ -759,6 +759,7 @@ struct MANGOS_DLL_DECL npc_tirion_tocAI : public ScriptedAI
                DoScriptText(-1713709, m_creature);
                UpdateTimer = 5000;
                pInstance->SetData(TYPE_EVENT,0);
+               pInstance->SetData(TYPE_NORTHREND_BEASTS,NOT_STARTED);
 //               pInstance->DoUseDoorOrButton(pInstance->GetData64(GO_WEST_PORTCULLIS));
                break;
 

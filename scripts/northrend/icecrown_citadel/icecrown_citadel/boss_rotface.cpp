@@ -81,7 +81,7 @@ struct MANGOS_DLL_DECL boss_rotfaceAI : public BSWScriptedAI
     void Reset()
     {
         if(!pInstance) return;
-        pInstance->SetData(TYPE_ROTFACE, NOT_STARTED);
+        if (m_creature->isAlive()) pInstance->SetData(TYPE_ROTFACE, NOT_STARTED);
         stage = 0;
         intro = false;
         pet = false;
@@ -129,7 +129,8 @@ struct MANGOS_DLL_DECL boss_rotfaceAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-	    if(!pInstance) return;
+
+    if(!pInstance) return;
 
     if (!pet) {
               if (Creature* pGuard = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(NPC_PRECIOUS)))

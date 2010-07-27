@@ -68,7 +68,7 @@ struct MANGOS_DLL_DECL boss_festergutAI : public BSWScriptedAI
     {
         if(!pInstance) return;
         resetTimers();
-        pInstance->SetData(TYPE_FESTERGUT, NOT_STARTED);
+        if (m_creature->isAlive()) pInstance->SetData(TYPE_FESTERGUT, NOT_STARTED);
         stage = 0;
         intro = false;
         pet = false;
@@ -115,9 +115,9 @@ struct MANGOS_DLL_DECL boss_festergutAI : public BSWScriptedAI
     {
         if(pInstance) pInstance->SetData(TYPE_FESTERGUT, DONE);
         pInstance->SetData(TYPE_EVENT, 550);
-        doRemove(SPELL_PUNGENT_BLIGHT);
-        doRemove(SPELL_PUNGENT_BLIGHT_1);
-        doRemove(SPELL_PUNGENT_BLIGHT_2);
+        doRemoveFromAll(SPELL_PUNGENT_BLIGHT);
+        doRemoveFromAll(SPELL_PUNGENT_BLIGHT_1);
+        doRemoveFromAll(SPELL_PUNGENT_BLIGHT_2);
         DoScriptText(-1631206,m_creature);
     }
 
@@ -160,7 +160,8 @@ struct MANGOS_DLL_DECL boss_festergutAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-	    if(!pInstance) return;
+
+        if(!pInstance) return;
 
         if (!pet) {
                   if (Creature* pGuard = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(NPC_STINKY)))

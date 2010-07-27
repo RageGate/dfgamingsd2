@@ -18,6 +18,7 @@ enum Data
 
     DATA_ESCAPE_LIDER       = 101,
     DATA_LIDER              = 102,
+    DATA_SUMMONS            = 103,
 
     /*UNITS*/
     NPC_DARK_1                   = 38177, //Shadowy Mercenary
@@ -111,4 +112,5 @@ static _Locations SpawnLoc[]=
     {5277.445f, 2017.197f, 707.694f, 0.05f}, //26
     {5298.198f, 2037.762f, 707.694f, 4.71f}  //0
 };
+
 #endif

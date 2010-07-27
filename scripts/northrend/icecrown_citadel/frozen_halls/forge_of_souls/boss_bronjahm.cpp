@@ -1,18 +1,18 @@
 /* Copyright (C) 2006 - 2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-*/
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 /* ScriptData
 SDName: boss_bronjahm
@@ -27,24 +27,24 @@ EndScriptData */
 enum BossSpells
 {
         //common
-        SPELL_BERSERK = 47008,
+        SPELL_BERSERK                           = 47008,
         //yells
         //summons
-        NPC_SOUL_FRAGMENT = 36535,
+        NPC_SOUL_FRAGMENT                       = 36535,
         //Abilities
-        SPELL_MAGIC_BANE = 68793,
-        SPELL_CORRUPT_SOUL = 68839,
-        SPELL_CONSUME_SOUL = 68858,
-        SPELL_TELEPORT = 68988,
-        SPELL_SOULSTORM = 68872,
-        SPELL_SOULSTORM_2 = 68921,
-        SPELL_FEAR = 68950,
-        SPELL_SHADOW_BOLT = 70043,
+        SPELL_MAGIC_BANE                        = 68793,
+        SPELL_CORRUPT_SOUL                      = 68839,
+        SPELL_CONSUME_SOUL                      = 68858,
+        SPELL_TELEPORT                          = 68988,
+        SPELL_SOULSTORM                         = 68872,
+        SPELL_SOULSTORM_2                       = 68921,
+        SPELL_FEAR                              = 68950,
+        SPELL_SHADOW_BOLT                       = 70043,
 
    /*Music*/
-   Battle01 = 6077,
-   Battle02 = 6078,
-   Battle03 = 6079,
+   Battle01                              = 6077,
+   Battle02                              = 6078,
+   Battle03                              = 6079,
 
 };
 
@@ -68,7 +68,7 @@ struct MANGOS_DLL_DECL boss_bronjahmAI : public BSWScriptedAI
         stage = 0;
     }
 
-    void Aggro(Unit *who)
+    void Aggro(Unit *who) 
     {
        Music = (urand(0, 2));
        switch(Music)
@@ -84,7 +84,7 @@ struct MANGOS_DLL_DECL boss_bronjahmAI : public BSWScriptedAI
          case 2:
             m_creature->PlayDirectSound(Battle03);
             BattleMusicTimer = 36000;
-            break;
+            break; 
         }
 
         if(pInstance) pInstance->SetData(TYPE_BRONJAHM, IN_PROGRESS);
@@ -118,8 +118,8 @@ struct MANGOS_DLL_DECL boss_bronjahmAI : public BSWScriptedAI
 
         switch(stage)
         {
-            case 0:
-                    if (timedQuery(SPELL_CORRUPT_SOUL, diff))
+            case 0: 
+                    if  (timedQuery(SPELL_CORRUPT_SOUL, diff))
                         {
                             if (Unit* pTarget= m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                                 {
@@ -133,7 +133,7 @@ struct MANGOS_DLL_DECL boss_bronjahmAI : public BSWScriptedAI
                                 }
                         }
                     break;
-            case 1:
+            case 1: 
                         if (timedCast(SPELL_TELEPORT, diff) == CAST_OK) stage = 2;
                     break;
             case 2:
@@ -143,7 +143,7 @@ struct MANGOS_DLL_DECL boss_bronjahmAI : public BSWScriptedAI
                                stage = 3;
                                }
                     break;
-            case 3:
+            case 3: 
                         timedCast(SPELL_FEAR, diff);
                     break;
         }
@@ -171,7 +171,7 @@ struct MANGOS_DLL_DECL boss_bronjahmAI : public BSWScriptedAI
              case 2:
                 m_creature->PlayDirectSound(Battle03);
                 BattleMusicTimer = 37000;
-                break;
+                break; 
             }
         } else BattleMusicTimer -= diff;
     }
@@ -248,4 +248,3 @@ void AddSC_boss_bronjahm()
     newscript->RegisterSelf();
 
 }
-

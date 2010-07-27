@@ -348,7 +348,7 @@ struct MANGOS_DLL_DECL mob_ice_tombAI : public BSWScriptedAI
     {
         SetCombatMovement(false);
         pVictim = NULL;
-		m_creature->SetRespawnDelay(7*DAY);
+        m_creature->SetRespawnDelay(7*DAY);
     }
 
     void Aggro(Unit* pWho)

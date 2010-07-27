@@ -8,6 +8,7 @@
 
 enum
 {
+
     TYPE_TELEPORT               = 0,
     TYPE_MARROWGAR              = 1,
     TYPE_DEATHWHISPER           = 2,
@@ -54,6 +55,8 @@ enum
 
     NPC_RIMEFANG                = 37533,
     NPC_SPINESTALKER            = 37534,
+
+    NPC_TARGET_DUMMY            = 2673,
 
     GO_TELEPORT_GOSSIP_MESSAGE  = 99323,
     TELEPORT_GOSSIP_MESSAGE     = 99322,
@@ -108,8 +111,8 @@ enum
     GO_GUNSHIP_ARMORY_H_25H     = 202180, //
 
     GO_DREAMWALKER_CACHE_10      = 201959, //
-    GO_DREAMWALKER_CACHE_25      = 202338, //
-    GO_DREAMWALKER_CACHE_10_H    = 202339, //
+    GO_DREAMWALKER_CACHE_25      = 202339, //
+    GO_DREAMWALKER_CACHE_10_H    = 202338, //
     GO_DREAMWALKER_CACHE_25_H    = 202340, //
 
     GO_PLAGUE_SIGIL             = 202182,
@@ -133,13 +136,9 @@ enum
     MAP_NUM                     = 631,
     TYPE_DIFFICULTY             = 1001,
     DATA_BLOOD_COUNCIL_HEALTH   = 1002,
+    DATA_BLOOD_INVOCATION       = 1003,
     DESPAWN_TIME                = 300000,
-    
-    SAY_INTRO1 = -1999926, // SoundID: 17349 (Lich King)
-    SAY_INTRO2 = -1999927, // SoundID: 17390 (Tirion)
-    SAY_INTRO3 = -1999928, // SoundID: 17350 (Lich King)
-    SAY_INTRO4 = -1999929, // SoundID: 17391 (Tirion)
-    SAY_AGGRO  = -1999931, // SoundID: 17351 (Lich King)
+
 };
 
 class MANGOS_DLL_DECL instance_icecrown_spire : public ScriptedInstance
@@ -194,6 +193,8 @@ private:
     uint64 m_uiStinkyGUID;
     uint64 m_uiPreciousGUID;
 
+    uint64 m_uidummyTargetGUID;
+
     uint64 m_uiIcewall1GUID;
     uint64 m_uiIcewall2GUID;
     uint64 m_uiSaurfangDoorGUID;
@@ -228,6 +229,7 @@ private:
 
     uint64 m_uiFrostyWindGUID;
     uint64 m_uiFrostyEdgeGUID;
+    uint64 m_uiSnowEdgeGUID;
     uint64 m_uiArthasPlatformGUID;
     uint64 m_uiArthasPrecipiceGUID;
 
@@ -244,6 +246,7 @@ private:
     uint64 m_uiGunshipArmoryA_ID;
 
     uint32 m_uiDataCouncilHealth;
+    uint32 m_uiCouncilInvocation;
 
     uint32 m_auiEvent;
     uint32 m_auiEventTimer;

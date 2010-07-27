@@ -1,25 +1,25 @@
 /* Copyright (C) 2006 - 2010 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-*/
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 // Gormok - Firebomb not implemented, timers need correct
 // Snakes - Underground phase not worked, timers need correct
 // Icehowl - Trample&Crash event not implemented, timers need correct
 
 /* ScriptData
 SDName: northrend_beasts
-SD%Complete: 90%
+SD%Complete: 90% 
 SDComment: by /dev/rsa
 SDCategory:
 EndScriptData */
@@ -33,55 +33,55 @@ EndScriptData */
 
 enum Equipment
 {
-    EQUIP_MAIN = 50760,
-    EQUIP_OFFHAND = 48040,
-    EQUIP_RANGED = 47267,
-    EQUIP_DONE = EQUIP_NO_CHANGE,
+    EQUIP_MAIN           = 50760,
+    EQUIP_OFFHAND        = 48040,
+    EQUIP_RANGED         = 47267,
+    EQUIP_DONE           = EQUIP_NO_CHANGE,
 };
 
 enum Summons
 {
-    NPC_SNOBOLD_VASSAL = 34800,
-    NPC_SLIME_POOL = 35176,
-    NPC_FIRE_BOMB = 34854,
+    NPC_SNOBOLD_VASSAL   = 34800,
+    NPC_SLIME_POOL       = 35176,
+    NPC_FIRE_BOMB        = 34854,
 };
 
 enum BossSpells
 {
-SPELL_IMPALE = 66331,
+SPELL_IMPALE           = 66331,
 SPELL_STAGGERING_STOMP = 67648,
-SPELL_RISING_ANGER = 66636,
-SUMMON_SNOBOLD = NPC_SNOBOLD_VASSAL,
-SPELL_ACID_SPIT = 66880,
-SPELL_PARALYTIC_SPRAY = 66901,
-SPELL_ACID_SPEW = 66819,
-SPELL_PARALYTIC_BITE = 66824,
-SPELL_SWEEP_0 = 66794,
-SPELL_SLIME_POOL = 66883,
-SPELL_FIRE_SPIT = 66796,
-SPELL_MOLTEN_SPEW = 66821,
-SPELL_BURNING_BITE = 66879,
-SPELL_BURNING_SPRAY = 66902,
-SPELL_SWEEP_1 = 67646,
-SPELL_FEROCIOUS_BUTT = 66770,
-SPELL_MASSIVE_CRASH = 66683,
-SPELL_WHIRL = 67345,
-SPELL_ARCTIC_BREATH = 66689,
-SPELL_TRAMPLE = 66734,
-SPELL_ADRENALINE = 68667,
-SPELL_SNOBOLLED = 66406,
-SPELL_BATTER = 66408,
-SPELL_FIRE_BOMB = 66313,
-SPELL_FIRE_BOMB_1 = 66317,
-SPELL_FIRE_BOMB_DOT = 66318,
-SPELL_HEAD_CRACK = 66407,
-SPELL_SUBMERGE_0 = 53421,
-SPELL_ENRAGE = 68335,
-SPELL_FROTHING_RAGE = 66759,
-SPELL_STAGGERED_DAZE = 66758,
-SPELL_SLIME_POOL_1 = 66881,
-SPELL_SLIME_POOL_2 = 66882,
-SPELL_SLIME_POOL_VISUAL = 63084,
+SPELL_RISING_ANGER     = 66636,
+SUMMON_SNOBOLD         = NPC_SNOBOLD_VASSAL,
+SPELL_ACID_SPIT        = 66880,
+SPELL_PARALYTIC_SPRAY  = 66901,
+SPELL_ACID_SPEW        = 66819,
+SPELL_PARALYTIC_BITE   = 66824,
+SPELL_SWEEP_0          = 66794,
+SPELL_SLIME_POOL       = 66883,
+SPELL_FIRE_SPIT        = 66796,
+SPELL_MOLTEN_SPEW      = 66821,
+SPELL_BURNING_BITE     = 66879,
+SPELL_BURNING_SPRAY    = 66902,
+SPELL_SWEEP_1          = 67646,
+SPELL_FEROCIOUS_BUTT   = 66770,
+SPELL_MASSIVE_CRASH    = 66683,
+SPELL_WHIRL            = 67345,
+SPELL_ARCTIC_BREATH    = 66689,
+SPELL_TRAMPLE          = 66734,
+SPELL_ADRENALINE       = 68667,
+SPELL_SNOBOLLED        = 66406,
+SPELL_BATTER           = 66408,
+SPELL_FIRE_BOMB        = 66313,
+SPELL_FIRE_BOMB_1      = 66317,
+SPELL_FIRE_BOMB_DOT    = 66318,
+SPELL_HEAD_CRACK       = 66407,
+SPELL_SUBMERGE_0       = 53421,
+SPELL_ENRAGE           = 68335,
+SPELL_FROTHING_RAGE    = 66759,
+SPELL_STAGGERED_DAZE   = 66758,
+SPELL_SLIME_POOL_1     = 66881,
+SPELL_SLIME_POOL_2     = 66882,
+SPELL_SLIME_POOL_VISUAL  = 63084,
 };
 
 struct MANGOS_DLL_DECL boss_gormokAI : public BSWScriptedAI
@@ -184,8 +184,8 @@ struct MANGOS_DLL_DECL mob_snobold_vassalAI : public BSWScriptedAI
     void JustDied(Unit* pKiller)
     {
     if (defaultTarget && defaultTarget->isAlive()) doRemove(SPELL_SNOBOLLED, defaultTarget);
-// if (pBoss && pBoss->isAlive()) doRemove(SPELL_RISING_ANGER,pBoss);
-// This string - not offlike, in off this buff not removed! especially for small servers.
+//      if (pBoss && pBoss->isAlive()) doRemove(SPELL_RISING_ANGER,pBoss);
+//      This string - not offlike, in off this buff not removed! especially for small servers.
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -258,11 +258,11 @@ struct MANGOS_DLL_DECL boss_acidmawAI : public BSWScriptedAI
     void UpdateAI(const uint32 uiDiff)
     {
 
-        if ((!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+        if ((!m_creature->SelectHostileTarget() || !m_creature->getVictim()) 
         && (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) != ACIDMAW_SUBMERGED))
             return;
 
-    switch (stage)
+    switch (stage) 
         {
         case 0: {
                 timedCast(SPELL_ACID_SPEW, uiDiff);
@@ -368,11 +368,11 @@ struct MANGOS_DLL_DECL boss_dreadscaleAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if ((!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+        if ((!m_creature->SelectHostileTarget() || !m_creature->getVictim()) 
         && (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) != DREADSCALE_SUBMERGED))
             return;
 
-        switch (stage)
+        switch (stage) 
         {
         case 0: {
                 timedCast(SPELL_BURNING_BITE, uiDiff);
@@ -519,11 +519,11 @@ struct MANGOS_DLL_DECL boss_icehowlAI : public BSWScriptedAI
     {
         if(!m_pInstance) return;
         if(type != POINT_MOTION_TYPE) return;
-        if(id != 1 && MovementStarted)
+        if(id != 1 && MovementStarted) 
         {
              m_creature->GetMotionMaster()->MovePoint(1, fPosX, fPosY, fPosZ);
         }
-        else {
+        else    {
                 m_creature->GetMotionMaster()->MovementExpired();
                 MovementStarted = false;
                 SetCombatMovement(true);
@@ -549,7 +549,7 @@ struct MANGOS_DLL_DECL boss_icehowlAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch (stage)
+        switch (stage) 
         {
         case 0: {
                  timedCast(SPELL_FEROCIOUS_BUTT, uiDiff);
@@ -594,7 +594,7 @@ struct MANGOS_DLL_DECL boss_icehowlAI : public BSWScriptedAI
                                     doCast(SPELL_ADRENALINE);
                                     stage = 4;
                                     }
-                        else {
+                        else        {
                                     TrampleCasted = true;
                                     stage = 5;
                                     }

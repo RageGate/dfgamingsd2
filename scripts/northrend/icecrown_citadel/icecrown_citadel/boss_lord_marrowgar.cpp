@@ -58,7 +58,8 @@ struct MANGOS_DLL_DECL boss_lord_marrowgarAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_MARROWGAR, NOT_STARTED);
+        if (!pInstance) return;
+        if (m_creature->isAlive()) pInstance->SetData(TYPE_MARROWGAR, NOT_STARTED);
         stage = 0;
         flames = 0;
         resetTimers();
@@ -148,12 +149,9 @@ struct MANGOS_DLL_DECL boss_lord_marrowgarAI : public BSWScriptedAI
                     break;
             case 2:
 
-                    if (timedQuery(SPELL_BONE_STORM, diff)) stage = 3;
-
-                    timedCast(SPELL_BONE_STORM_STRIKE, diff);
-
+                    if (!m_creature->IsNonMeleeSpellCasted(false)) stage = 3;
+//                    if (timedQuery(SPELL_BONE_STORM, diff)) stage = 3;
                     break;
-
             case 3:
                     timedCast(SPELL_SABER_LASH, diff);
                     DoMeleeAttackIfReady();
@@ -240,7 +238,7 @@ struct MANGOS_DLL_DECL mob_bone_spikeAI : public BSWScriptedAI
 
     void Reset()
     {
-//        SetCombatMovement(false);
+        m_creature->SetRespawnDelay(7*DAY);
         pVictim = NULL;
     }
 
@@ -287,9 +285,9 @@ struct MANGOS_DLL_DECL mob_bone_spikeAI : public BSWScriptedAI
         }
 
         if(pVictim && pVictim->IsInWorld())
-		    if(m_creature->IsWithinDistInMap(pVictim, 1.0f)
-             && pVictim->isAlive()
-             && !pVictim->HasAura(SPELL_BONE_STRIKE_IMPALE))
+            if(m_creature->IsWithinDistInMap(pVictim, 1.0f)
+                 && pVictim->isAlive()
+                 && !pVictim->HasAura(SPELL_BONE_STRIKE_IMPALE))
         {
             doCast(SPELL_BONE_STRIKE_IMPALE,pVictim);
             m_creature->GetMotionMaster()->Clear();

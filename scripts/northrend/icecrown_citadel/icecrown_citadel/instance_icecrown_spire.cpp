@@ -23,11 +23,12 @@ EndScriptData */
 
 #include "precompiled.h"
 #include "def_spire.h"
+#include "World.h"
 
 static Locations SpawnLoc[]=
 {
-    {-446.788971f, 2003.362915f, 191.233948f},  // 0 Horde ship enter
-    {-428.140503f, 2421.336914f, 191.233078f},  // 1 Alliance ship enter
+    {-446.788971, 2003.362915, 191.233948},  // 0 Horde ship enter
+    {-428.140503, 2421.336914, 191.233078},  // 1 Alliance ship enter
 };
 
     instance_icecrown_spire::instance_icecrown_spire(Map* pMap) : ScriptedInstance(pMap) 
@@ -101,6 +102,8 @@ static Locations SpawnLoc[]=
         m_uiSDoorCollisionGUID = 0;
         m_auiEvent = 0;
         m_auiEventTimer = 1000;
+        m_uiCouncilInvocation = 0;
+
         switch (Difficulty) {
                              case RAID_DIFFICULTY_10MAN_NORMAL:
                                        m_uiGunshipArmoryH_ID = GO_GUNSHIP_ARMORY_H_10;
@@ -218,6 +221,9 @@ static Locations SpawnLoc[]=
                           break;
             case NPC_PRECIOUS:
                           m_uiPreciousGUID = pCreature->GetGUID();
+                          break;
+            case NPC_TARGET_DUMMY:
+                          m_uidummyTargetGUID = pCreature->GetGUID();
                           break;
             case NPC_FROSTMOURNE_TRIGGER:
                           m_uiFrostmourneTriggerGUID = pCreature->GetGUID(); break;
@@ -384,6 +390,9 @@ static Locations SpawnLoc[]=
             case GO_FROSTY_EDGE: 
                                   m_uiFrostyEdgeGUID = pGo->GetGUID();
                                   break;
+            case GO_SNOW_EDGE: 
+                                  m_uiSnowEdgeGUID = pGo->GetGUID();
+                                  break;
             case GO_ARTHAS_PLATFORM: 
                                   m_uiArthasPlatformGUID = pGo->GetGUID();
                                   break;
@@ -448,7 +457,11 @@ static Locations SpawnLoc[]=
                                       else OpenDoor(m_uiOrangePlagueGUID);
                 if (uiData == DONE)  {
                                      OpenDoor(m_uiSDoorOrangeGUID);
-                                     if (m_auiEncounter[6] == DONE) OpenDoor(m_uiSDoorCollisionGUID);
+                                     if (m_auiEncounter[6] == DONE) 
+                                         {
+                                             OpenDoor(m_uiSDoorCollisionGUID);
+                                             OpenDoor(m_uiGreenPlagueGUID);
+                                         }
                                      }
                 break;
              case TYPE_ROTFACE:
@@ -457,7 +470,11 @@ static Locations SpawnLoc[]=
                                       else OpenDoor(m_uiGreenPlagueGUID);
                 if (uiData == DONE) {
                                      OpenDoor(m_uiSDoorGreenGUID);
-                                     if (m_auiEncounter[5] == DONE) OpenDoor(m_uiSDoorCollisionGUID);
+                                     if (m_auiEncounter[5] == DONE) 
+                                         {
+                                             OpenDoor(m_uiSDoorOrangeGUID);
+                                             OpenDoor(m_uiSDoorCollisionGUID);
+                                         }
                                      }
                 break;
              case TYPE_PUTRICIDE:
@@ -468,11 +485,10 @@ static Locations SpawnLoc[]=
                 break;
              case TYPE_BLOOD_COUNCIL:
                 m_auiEncounter[8] = uiData;
-                if (uiData == DONE) 
-				{
-                    OpenDoor(m_uiCounsilDoor1GUID);
-                    OpenDoor(m_uiCounsilDoor2GUID);
-                }
+                if (uiData == DONE) {
+                                     OpenDoor(m_uiCounsilDoor1GUID);
+                                     OpenDoor(m_uiCounsilDoor2GUID);
+                                    }
                 break;
              case TYPE_LANATHEL:
                 m_auiEncounter[9] = uiData;
@@ -507,6 +523,9 @@ static Locations SpawnLoc[]=
                 break;
              case DATA_BLOOD_COUNCIL_HEALTH:     m_uiDataCouncilHealth = uiData; 
                                                  uiData = NOT_STARTED; 
+                                                 break;
+             case DATA_BLOOD_INVOCATION:         m_uiCouncilInvocation = uiData;
+                                                 uiData = NOT_STARTED;
                                                  break;
              case TYPE_EVENT:            m_auiEvent = uiData; uiData = NOT_STARTED; break;
              case TYPE_EVENT_TIMER:      m_auiEventTimer = uiData; uiData = NOT_STARTED; break;
@@ -549,6 +568,7 @@ static Locations SpawnLoc[]=
              case TYPE_ICECROWN_QUESTS:  return m_auiEncounter[13];
              case TYPE_COUNT:         return m_auiEncounter[14];
              case DATA_BLOOD_COUNCIL_HEALTH:     return m_uiDataCouncilHealth; 
+             case DATA_BLOOD_INVOCATION:         return m_uiCouncilInvocation; 
              case TYPE_EVENT:         return m_auiEvent;
              case TYPE_EVENT_TIMER:   return m_auiEventTimer;
              case TYPE_EVENT_NPC:     switch (m_auiEvent) 
@@ -586,6 +606,7 @@ static Locations SpawnLoc[]=
                                           case 14070:
                                                  return NPC_TIRION;
                                                  break;
+
                                           case 12000:
                                           case 12020:
                                           case 12040:
@@ -675,10 +696,12 @@ static Locations SpawnLoc[]=
             case GO_ICESHARD_4:               return m_uiIceShard4GUID;
             case GO_FROSTY_WIND:              return m_uiFrostyWindGUID;
             case GO_FROSTY_EDGE:              return m_uiFrostyEdgeGUID;
+            case GO_SNOW_EDGE:                return m_uiSnowEdgeGUID;
             case GO_ARTHAS_PLATFORM:          return m_uiArthasPlatformGUID;
             case GO_ARTHAS_PRECIPICE:         return m_uiArthasPrecipiceGUID;
             case NPC_FROSTMOURNE_TRIGGER:     return m_uiFrostmourneTriggerGUID;
             case NPC_FROSTMOURNE_HOLDER:      return m_uiFrostmourneHolderGUID;
+            case NPC_TARGET_DUMMY:            return m_uidummyTargetGUID;
         }
         return 0;
     }

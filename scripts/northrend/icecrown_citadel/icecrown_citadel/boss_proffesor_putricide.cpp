@@ -111,7 +111,7 @@ struct MANGOS_DLL_DECL boss_proffesor_putricideAI : public BSWScriptedAI
     void Reset()
     {
         if (!pInstance) return;
-        pInstance->SetData(TYPE_PUTRICIDE, NOT_STARTED);
+        if (m_creature->isAlive()) pInstance->SetData(TYPE_PUTRICIDE, NOT_STARTED);
         stage = 0;
         slimetype = 0;
         intro = false;
@@ -382,7 +382,8 @@ struct MANGOS_DLL_DECL boss_proffesor_putricideAI : public BSWScriptedAI
                     break;
             case 8:
                     timedCast(SPELL_MUTATED_PLAGUE, diff);
-
+                    if (m_creature->GetDisplayId() != VIEW_3)
+                        m_creature->SetDisplayId(VIEW_3);
                     DoMeleeAttackIfReady();
 
                     break;
@@ -419,8 +420,8 @@ struct MANGOS_DLL_DECL mob_icc_gas_cloudAI : public BSWScriptedAI
     {
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->AddSplineFlag(SPLINEFLAG_WALKMODE);
-        m_creature->SetSpeedRate(MOVE_WALK, 0.5f);
-        m_creature->SetSpeedRate(MOVE_RUN, 0.2f);
+        m_creature->SetSpeedRate(MOVE_WALK, 0.5);
+        m_creature->SetSpeedRate(MOVE_RUN, 0.2);
         pTarget = NULL;
         expunded = false;
         delay = 10000;
@@ -511,8 +512,8 @@ struct MANGOS_DLL_DECL mob_icc_volatile_oozeAI : public BSWScriptedAI
     {
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->AddSplineFlag(SPLINEFLAG_WALKMODE);
-        m_creature->SetSpeedRate(MOVE_WALK, 0.5f);
-        m_creature->SetSpeedRate(MOVE_RUN, 0.2f);
+        m_creature->SetSpeedRate(MOVE_WALK, 0.5);
+        m_creature->SetSpeedRate(MOVE_RUN, 0.2);
         pTarget = NULL;
         finita = false;
         delay = 10000;

@@ -16,7 +16,7 @@
 
 /* ScriptData
 SDName: trial_of_the_crusader
-SD%Complete: 0
+SD%Complete: 80%
 SDComment: by /dev/rsa
 SDCategory: Crusader Coliseum
 EndScriptData */
@@ -82,14 +82,13 @@ struct MANGOS_DLL_DECL boss_fjolaAI : public BSWScriptedAI
 
     ScriptedInstance* m_pInstance;
     uint8 stage;
-    bool TwinPactCasted;
 
     void Reset() {
         if(!m_pInstance) return;
         SetEquipmentSlots(false, EQUIP_MAIN_1, EQUIP_OFFHAND_1, EQUIP_RANGED_1);
-        m_creature->SetRespawnDelay(DAY);
-        stage = 1;
-        TwinPactCasted = false;
+        m_creature->SetRespawnDelay(7*DAY);
+        m_pInstance->SetData(DATA_CASTING_VALKYRS, SPELL_NONE);
+        stage = 0;
     }
 
     void JustReachedHome()
@@ -97,6 +96,7 @@ struct MANGOS_DLL_DECL boss_fjolaAI : public BSWScriptedAI
         if (!m_pInstance) return;
             m_pInstance->SetData(TYPE_VALKIRIES, FAIL);
             m_pInstance->SetData(DATA_HEALTH_FJOLA, m_creature->GetMaxHealth());
+            m_pInstance->SetData(DATA_CASTING_VALKYRS, SPELL_NONE);
             m_creature->ForcedDespawn();
     }
 
@@ -240,16 +240,14 @@ struct MANGOS_DLL_DECL boss_eydisAI : public BSWScriptedAI
 
     ScriptedInstance* m_pInstance;
     uint8 stage;
-    bool TwinPactCasted;
-
 
     void Reset() 
     {
         if(!m_pInstance) return;
         SetEquipmentSlots(false, EQUIP_MAIN_2, EQUIP_OFFHAND_2, EQUIP_RANGED_2);
-        m_creature->SetRespawnDelay(DAY);
+        m_creature->SetRespawnDelay(7*DAY);
+        m_pInstance->SetData(DATA_CASTING_VALKYRS, SPELL_NONE);
         stage = 0;
-        TwinPactCasted = false;
     }
 
     void JustReachedHome()
@@ -257,6 +255,7 @@ struct MANGOS_DLL_DECL boss_eydisAI : public BSWScriptedAI
         if (!m_pInstance) return;
             m_pInstance->SetData(TYPE_VALKIRIES, FAIL);
             m_pInstance->SetData(DATA_HEALTH_EYDIS, m_creature->GetMaxHealth());
+            m_pInstance->SetData(DATA_CASTING_VALKYRS, SPELL_NONE);
             m_creature->ForcedDespawn();
     }
 
@@ -435,8 +434,9 @@ bool GossipHello_mob_light_essence(Player *player, Creature* pCreature)
     if(!pInstance) return true;
         player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, pCreature->GetGUID());
         player->RemoveAurasDueToSpell(SPELL_DARK_ESSENCE);
-        player->CastSpell(player,SPELL_REMOVE_TOUCH,false);
+//        player->CastSpell(player,SPELL_REMOVE_TOUCH,false); // Not worked now
         player->CastSpell(player,SPELL_LIGHT_ESSENCE,false);
+            player->RemoveAurasDueToSpell(SPELL_LIGHT_TOUCH); // Override for REMOVE_TOUCH
         player->CLOSE_GOSSIP_MENU();
     return true;
 };
@@ -486,8 +486,9 @@ bool GossipHello_mob_dark_essence(Player *player, Creature* pCreature)
     if(!pInstance) return true;
     player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, pCreature->GetGUID());
         player->RemoveAurasDueToSpell(SPELL_LIGHT_ESSENCE);
-        player->CastSpell(player,SPELL_REMOVE_TOUCH,false);
+//        player->CastSpell(player,SPELL_REMOVE_TOUCH,false); // Not worked now
         player->CastSpell(player,SPELL_DARK_ESSENCE,false);
+            player->RemoveAurasDueToSpell(SPELL_DARK_TOUCH); // Override for REMOVE_TOUCH
         player->CLOSE_GOSSIP_MENU();
     return true;
 }

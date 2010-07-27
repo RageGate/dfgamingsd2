@@ -34,7 +34,7 @@ struct MANGOS_DLL_DECL instance_pit_of_saron : public ScriptedInstance
     uint64 m_uiGafrostGUID;
     uint64 m_uiKrickGUID;
     uint64 m_uiIckGUID;
-    uint64 m_uiTyrannusGUID;
+    uint64 m_uiTirannusGUID;
     uint64 m_uiRimefangGUID;
 
     void OpenDoor(uint64 guid)
@@ -72,16 +72,16 @@ struct MANGOS_DLL_DECL instance_pit_of_saron : public ScriptedInstance
             case NPC_GAFROST:  m_uiGafrostGUID = pCreature->GetGUID(); break;
             case NPC_KRICK:    m_uiKrickGUID = pCreature->GetGUID(); break;
             case NPC_ICK:      m_uiIckGUID = pCreature->GetGUID(); break;
-            case NPC_TYRANNUS: m_uiTyrannusGUID = pCreature->GetGUID(); break;
+            case NPC_TYRANNUS: m_uiTirannusGUID = pCreature->GetGUID(); break;
             case NPC_RIMEFANG: m_uiRimefangGUID = pCreature->GetGUID(); break;
         }
     }
 
     void OnObjectCreate(GameObject* pGo)
     {
-        /*switch(pGo->GetEntry())
+        switch(pGo->GetEntry())
         {
-        }*/
+        }
     }
     void SetData(uint32 uiType, uint32 uiData)
     {
@@ -133,7 +133,7 @@ struct MANGOS_DLL_DECL instance_pit_of_saron : public ScriptedInstance
             case NPC_GAFROST:  return m_uiGafrostGUID;
             case NPC_KRICK:    return m_uiKrickGUID;
             case NPC_ICK:      return m_uiIckGUID;
-            case NPC_TYRANNUS: return m_uiTyrannusGUID;
+            case NPC_TYRANNUS: return m_uiTirannusGUID;
             case NPC_RIMEFANG: return m_uiRimefangGUID;
         }
         return 0;
