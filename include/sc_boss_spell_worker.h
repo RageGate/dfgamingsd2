@@ -8,9 +8,11 @@
 #include "precompiled.h"
 #include "Player.h"
 #include "SpellAuras.h"
+#include "SpellMgr.h"
 #include "Unit.h"
 #include "Database/DatabaseEnv.h"
 #include "../ScriptMgr.h"
+
 
 enum
 {
@@ -88,13 +90,6 @@ struct SpellTable
     int32  textEntry;                                  // Text entry from script_text for this spell
 };
 
-class MANGOS_DLL_DECL BossAura : public Aura
-{
-    public:
-        BossAura(const SpellEntry *spell, SpellEffectIndex effect, int32 *basepoints, Unit *target, Unit *caster) : Aura(spell, effect, basepoints, target, caster)
-            {}
-};
-
 struct MANGOS_DLL_DECL BSWScriptedAI : public ScriptedAI
 {
     public:
@@ -152,6 +147,13 @@ struct MANGOS_DLL_DECL BSWScriptedAI : public ScriptedAI
                  uint8 m_uiSpellIdx = _findSpellIDX(SpellID);
                  if (!queryIndex(m_uiSpellIdx)) return false;
                      return _doRemove(m_uiSpellIdx,pTarget, index);
+             };
+
+        bool doRemoveFromAll(uint32 SpellID)
+             {
+                 uint8 m_uiSpellIdx = _findSpellIDX(SpellID);
+                 if (!queryIndex(m_uiSpellIdx)) return false;
+                     return _doRemoveFromAll(m_uiSpellIdx);
              };
 
         bool doAura(uint32 SpellID, Unit* pTarget = NULL, SpellEffectIndex index = EFFECT_INDEX_0)
@@ -218,17 +220,18 @@ struct MANGOS_DLL_DECL BSWScriptedAI : public ScriptedAI
              };
 
         Creature* doSelectNearestCreature(uint32 guid, float range = 120.0f);
-		
-		uint32 getSpellData(uint32 SpellID)
-		     {
-			      uint8 m_uiSpellIdx = _findSpellIDX(SpellID);
-				  return queryIndex(m_uiSpellIdx) ?  _getSpellData(m_uiSpellIdx): 0;
-			 };
-		bool doCastAll(uint32 diff);
+
+        uint32 getSpellData(uint32 SpellID)
+             {
+                  uint8 m_uiSpellIdx = _findSpellIDX(SpellID);
+                  return queryIndex(m_uiSpellIdx) ?  _getSpellData(m_uiSpellIdx): 0;
+             };
+
+        bool doCastAll(uint32 diff);
 
         uint8 getStage() { return _stage; };
 
-		void  setStage(uint8 stage) { _stage = stage; };
+        void  setStage(uint8 stage) { _stage = stage; };
 
     protected:
 
@@ -266,6 +269,8 @@ struct MANGOS_DLL_DECL BSWScriptedAI : public ScriptedAI
 
         bool          _doRemove(uint8 m_uiSpellIdx, Unit* pTarget = NULL, uint8 index = EFFECT_INDEX_ALL);
 
+        bool          _doRemoveFromAll(uint8 m_uiSpellIdx);
+
         bool          _doAura(uint8 m_uiSpellIdx, Unit* pTarget = NULL, SpellEffectIndex index = EFFECT_INDEX_0);
 
         bool          _hasAura(uint8 m_uiSpellIdx, Unit* pTarget);
@@ -273,12 +278,12 @@ struct MANGOS_DLL_DECL BSWScriptedAI : public ScriptedAI
         uint8         _auraCount(uint8 m_uiSpellIdx, Unit* pTarget = NULL, SpellEffectIndex index = EFFECT_INDEX_0);
 
         void          _fillEmptyDataField();
-		
-		uint32        _getSpellData(uint8 m_uiSpellIdx);
+
+        uint32        _getSpellData(uint8 m_uiSpellIdx);
 
 // Constants
         uint8         _bossSpellCount;
-		uint8         _stage;
+        uint8         _stage;
         uint32        m_uiSpell_Timer[MAX_BOSS_SPELLS];
         SpellTable    m_BossSpell[MAX_BOSS_SPELLS];
 };
