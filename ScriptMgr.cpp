@@ -9,6 +9,7 @@
 #include "DBCStores.h"
 #include "ObjectMgr.h"
 #include "ProgressBar.h"
+#include "World.h"
 #include "../system/ScriptLoader.h"
 #include "../system/system.h"
 
@@ -16,6 +17,24 @@ int num_sc_scripts;
 Script *m_scripts[MAX_SCRIPTS];
 
 Config SD2Config;
+
+/**********************************************************************
+additions for windows compiler
+**********************************************************************/
+template<> bool MaNGOS::Singleton<World>::si_destroyed;
+class World * MaNGOS::Singleton<World>::si_instance;
+template<> bool MaNGOS::Singleton<ObjectMgr>::si_destroyed;
+class ObjectMgr * MaNGOS::Singleton<ObjectMgr>::si_instance;
+World::World()
+{
+}
+World::~World()
+{
+}
+ObjectMgr::~ObjectMgr()
+{
+}
+/***********************************************************************/
 
 QueryResult* strSD2Pquery(char* str)
 {
