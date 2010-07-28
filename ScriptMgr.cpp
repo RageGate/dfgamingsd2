@@ -221,7 +221,7 @@ void DoScriptText(int32 iTextEntry, WorldObject* pSource, Unit* pTarget)
     }
 }
 
-char const* GetScriptText(int32 iTextEntry, Player* pPlayer)
+/*char const* GetScriptText(int32 iTextEntry, Player* pPlayer)
 {
     if (iTextEntry >= 0)
 	{
@@ -247,7 +247,7 @@ char const* GetScriptText(int32 iTextEntry, Player* pPlayer)
 	    else currentLocaleIdx = LOCALE_enUS;
 		
 	return sObjectMgr.GetMangosString(iTextEntry,currentLocaleIdx);
-}
+}*/
 	
 //*********************************
 //*** Functions used internally ***

@@ -441,7 +441,7 @@ extern void AddSC_blood_prince_council();
 extern void AddSC_boss_blood_queen_lanathel();
 extern void AddSC_boss_valithria_dreamwalker();
 extern void AddSC_boss_sindragosa();
-extern void AddSC_boss_the_lich_king_icc();
+//extern void AddSC_boss_the_lich_king_icc();
 
 extern void AddSC_instance_forge_of_souls();                // Forge_of_souls
 extern void AddSC_boss_bronjahm();
@@ -963,7 +963,7 @@ void AddScripts()
     AddSC_boss_blood_queen_lanathel();
     AddSC_boss_valithria_dreamwalker();
     AddSC_boss_sindragosa();
-	AddSC_boss_the_lich_king_icc();
+	//AddSC_boss_the_lich_king_icc();
 
     AddSC_instance_forge_of_souls();                        // Forge_of_souls
     AddSC_boss_bronjahm();

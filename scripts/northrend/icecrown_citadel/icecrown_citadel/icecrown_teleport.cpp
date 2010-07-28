@@ -63,9 +63,9 @@ bool GOGossipSelect_go_icecrown_teleporter(Player *pPlayer, GameObject* pGo, uin
     if (PortalLoc[action].spellID !=0 ) 
            if (SpellEntry const* spell = (SpellEntry *)GetSpellStore()->LookupEntry(PortalLoc[action].spellID))
            {
-               SpellAuraHolder *holder = CreateSpellAuraHolder(spell, pPlayer, pPlayer);
+               /*SpellAuraHolder *holder = CreateSpellAuraHolder(spell, pPlayer, pPlayer);
                Aura *aura = CreateAura(spell, EFFECT_INDEX_2, NULL, holder, pPlayer);
-               holder->AddAura(aura, EFFECT_INDEX_2);
+               holder->AddAura(aura, EFFECT_INDEX_2);*/
            }
 
     pPlayer->CLOSE_GOSSIP_MENU();
@@ -79,10 +79,10 @@ bool GOGossipHello_go_icecrown_teleporter(Player *pPlayer, GameObject* pGo)
     if (!pInstance || !pPlayer) return false;
     if (pPlayer->isInCombat()) return true;
 
-    for(uint8 i = 0; i < PORTALS_COUNT; i++) {
+    /*for(uint8 i = 0; i < PORTALS_COUNT; i++) {
     if (PortalLoc[i].active == true && (PortalLoc[i].state == true || pInstance->GetData(TYPE_TELEPORT) >= PortalLoc[i].encounter) || pPlayer->isGameMaster())
              pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_TAXI, GetScriptText(PortalLoc[i].textNum, pPlayer), GOSSIP_SENDER_MAIN, i);
-    };
+    };*/
     pPlayer->SEND_GOSSIP_MENU(TELEPORT_GOSSIP_MESSAGE, pGo->GetGUID());
     return true;
 }

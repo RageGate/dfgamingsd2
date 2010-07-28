@@ -428,10 +428,10 @@ void BSWScriptedAI::_fillEmptyDataField()
         {
             if (m_BossSpell[i].m_uiSpellEntry[j] == 0)
             {
-                SpellEntry const* spell = GetSpellEntryByDifficulty(m_BossSpell[i].m_uiSpellEntry[0],(Difficulty)j);
+                /*SpellEntry const* spell = GetSpellEntryByDifficulty(m_BossSpell[i].m_uiSpellEntry[0],(Difficulty)j);
                 if (spell)
                     m_BossSpell[i].m_uiSpellEntry[j] = spell->Id;
-                else m_BossSpell[i].m_uiSpellEntry[j] = m_BossSpell[i].m_uiSpellEntry[j-1];
+                else m_BossSpell[i].m_uiSpellEntry[j] = m_BossSpell[i].m_uiSpellEntry[j-1];*/
             }
 
             if (m_BossSpell[i].m_uiSpellTimerMin[j] == 0)
@@ -574,7 +574,7 @@ bool BSWScriptedAI::_doAura(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIndex 
     {
         if (IsSpellAppliesAura(spell, (1 << EFFECT_INDEX_0) | (1 << EFFECT_INDEX_1) | (1 << EFFECT_INDEX_2)) || IsSpellHaveEffect(spell, SPELL_EFFECT_PERSISTENT_AREA_AURA))
         {
-            SpellAuraHolder *holder = CreateSpellAuraHolder(spell, pTarget, pTarget);
+            //SpellAuraHolder *holder = CreateSpellAuraHolder(spell, pTarget, pTarget);
 
             int32 basepoint = pSpell->varData ?  pSpell->varData - 1 : spell->EffectBasePoints[index] + 1;
 
@@ -582,8 +582,8 @@ bool BSWScriptedAI::_doAura(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIndex 
                 spell->Effect[index] == SPELL_EFFECT_APPLY_AURA  ||
                 spell->Effect[index] == SPELL_EFFECT_PERSISTENT_AREA_AURA )
                 {
-                    Aura *aura = CreateAura(spell, SpellEffectIndex(index), &basepoint, holder, pTarget);
-                    holder->AddAura(aura, SpellEffectIndex(index));
+                    /*Aura *aura = CreateAura(spell, SpellEffectIndex(index), &basepoint, holder, pTarget);
+                    holder->AddAura(aura, SpellEffectIndex(index));*/
                     return true;
                 }
         }

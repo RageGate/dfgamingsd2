@@ -606,7 +606,7 @@ bool GossipHello_npc_jaina_and_sylvana_HRintro(Player* pPlayer, Creature* pCreat
     if(pCreature->isQuestGiver())
        pPlayer->PrepareQuestMenu( pCreature->GetGUID());
 
-    switch(pCreature->GetEntry())
+    /*switch(pCreature->GetEntry())
     {
        case NPC_JAINA:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GetScriptText(-1594536, pPlayer), GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
@@ -616,7 +616,7 @@ bool GossipHello_npc_jaina_and_sylvana_HRintro(Player* pPlayer, Creature* pCreat
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GetScriptText(-1594538, pPlayer), GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GetScriptText(-1594539, pPlayer), GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
             break;
-    }
+    }*/
 
     pPlayer->PlayerTalkClass->SendGossipMenu(907,pCreature->GetGUID());
     return true;
@@ -1148,7 +1148,7 @@ bool GossipHello_npc_jaina_and_sylvana_HRextro(Player* pPlayer, Creature* pCreat
     if(pCreature->isQuestGiver())
        pPlayer->PrepareQuestMenu( pCreature->GetGUID());
 
-    pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GetScriptText(-1594540, pPlayer), GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
+    //pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GetScriptText(-1594540, pPlayer), GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
 
     pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
 
