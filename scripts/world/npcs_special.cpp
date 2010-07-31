@@ -38,6 +38,7 @@ npc_injured_patient     100%    patients for triage-quests (6622 and 6624)
 npc_doctor              100%    Gustaf Vanhowzen and Gregory Victor, quest 6622 and 6624 (Triage)
 npc_innkeeper            25%    Innkeepers in general. A lot do be done here (misc options for events)
 npc_kingdom_of_dalaran_quests   Misc NPC's gossip option related to quests 12791, 12794 and 12796
+npc_experience_eliminator 100%  so you can stop Xp on your char there is a core patch to
 npc_lunaclaw_spirit     100%    Appears at two different locations, quest 6001/6002
 npc_mount_vendor        100%    Regular mount vendors all over the world. Display gossip if player doesn't meet the requirements to buy
 npc_rogue_trainer        80%    Scripted trainers, so they are able to offer item 17126 for class quest 6681
@@ -1156,6 +1157,53 @@ bool GossipSelect_npc_kingdom_of_dalaran_quests(Player* pPlayer, Creature* pCrea
         pPlayer->CLOSE_GOSSIP_MENU();
         pPlayer->CastSpell(pPlayer,SPELL_TELEPORT_DALARAN,false);
     }
+    return true;
+}
+
+/*######
+## npc_experience_eliminator
+######*/
+
+#define GOSSIP_ITEM_STOP_XP_GAIN "I don't want to gain experience anymore."
+#define GOSSIP_CONFIRM_STOP_XP_GAIN "Are you sure you want to stop gaining experience?"
+#define GOSSIP_ITEM_START_XP_GAIN "I want to be able to gain experience again."
+#define GOSSIP_CONFIRM_START_XP_GAIN "Are you sure you want to be able to gain experience once again?"
+
+bool GossipHello_npc_experience_eliminator(Player* pPlayer, Creature* pCreature)
+{
+    pPlayer->ADD_GOSSIP_ITEM_EXTENDED(
+        GOSSIP_ICON_CHAT,
+        pPlayer->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_XP_USER_DISABLED) ? GOSSIP_ITEM_START_XP_GAIN : GOSSIP_ITEM_STOP_XP_GAIN,
+        GOSSIP_SENDER_MAIN,
+        GOSSIP_ACTION_INFO_DEF+1,
+        pPlayer->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_XP_USER_DISABLED) ? GOSSIP_CONFIRM_START_XP_GAIN : GOSSIP_CONFIRM_STOP_XP_GAIN,
+        100000,
+        false
+    );
+
+    pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+    return true;
+}
+
+bool GossipSelect_npc_experience_eliminator(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
+{
+    if(uiAction == GOSSIP_ACTION_INFO_DEF+1)
+    {
+        // cheater(?) passed through client limitations
+        if(pPlayer->GetMoney() < 100000)
+            return true;
+
+        pPlayer->ModifyMoney(-100000);
+
+        if(pPlayer->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_XP_USER_DISABLED))
+            pPlayer->RemoveFlag(PLAYER_FLAGS, PLAYER_FLAGS_XP_USER_DISABLED);
+        else
+            pPlayer->SetFlag(PLAYER_FLAGS, PLAYER_FLAGS_XP_USER_DISABLED);
+
+        pPlayer->CLOSE_GOSSIP_MENU();
+        return true;
+    }
+    pPlayer->CLOSE_GOSSIP_MENU();
     return true;
 }
 
@@ -2453,6 +2501,12 @@ void AddSC_npcs_special()
     newscript->pGossipSelect = &GossipSelect_npc_kingdom_of_dalaran_quests;
     newscript->RegisterSelf();
 
+	newscript = new Script;
+    newscript->Name = "npc_experience_eliminator";
+    newscript->pGossipHello = &GossipHello_npc_experience_eliminator;
+    newscript->pGossipSelect = &GossipSelect_npc_experience_eliminator;
+    newscript->RegisterSelf(); 
+	
     newscript = new Script;
     newscript->Name = "npc_lunaclaw_spirit";
     newscript->pGossipHello =  &GossipHello_npc_lunaclaw_spirit;
