@@ -56,7 +56,8 @@ scripts/custom/custom_npc_professionmaster.cpp \
 scripts/custom/custom_npc_renamecharacter.cpp \
 scripts/custom/custom_npc_resetlevel.cpp \
 scripts/custom/custom_npc_spellmaster.cpp \
-scripts/custom/custom_npc_teleportmaster.cpp \
+scripts/custom/IsleOfMasters/CopperToGold.cpp \
+scripts/custom/IsleOfMasters/TeleportMaster.cpp \
 scripts/custom/custom_npc_titlemaster.cpp \
 scripts/custom/custom_npc_tokenvendor.cpp \
 scripts/custom/custom_script_training_dummy.cpp \

@@ -11,3 +11,15 @@ ConfVersion=2010062001
 #          .;/path/to/unix_socket;username;password;database - use Unix sockets at Unix/Linux
 #                Unix sockets: experimental, not tested
 ScriptDev2DatabaseInfo     = "127.0.0.1;3306;root;mangos;scriptdev2"
+
+################################################################################################
+# TeleportMaster Custom Config Options
+#
+#    TeleportMaster.OnlyGMs
+#        Players are not allowed to use the TeleportMaster if this is enabled
+#        Default: 0 - Disable
+#                 1 - Enable
+#
+################################################################################################
+
+TeleportMaster.OnlyGMs = 0
